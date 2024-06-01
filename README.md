@@ -54,6 +54,42 @@ func main() {
 	// Expected: Start of today: <today's date> 00:00:00
 	fmt.Println("End of today:", endOfDay.Format("2006-01-02 15:04:05"))
 	// Expected: End of today: <today's date> 23:59:59
+	
+	// 获取当前月份的开始
+	// Get the start of the current month
+	startOfMonth := now.StartOfMonth()
+	fmt.Println("Start of Month:", startOfMonth.Format("2006-01-02 15:04:05"))
+	// Expected: Start of Month: <first day of current month> 00:00:00
+
+	// 获取当前月份的结束
+	// Get the end of the current month
+	endOfMonth := now.EndOfMonth()
+	fmt.Println("End of Month:", endOfMonth.Format("2006-01-02 15:04:05"))
+	// Expected: End of Month: <last day of current month> 23:59:59
+
+	// 获取当前周的开始
+	// Get the start of the current week
+	startOfWeek := now.StartOfWeek()
+	fmt.Println("Start of Week:", startOfWeek.Format("2006-01-02 15:04:05"))
+	// Expected: Start of Week: <Sunday of the current week> 00:00:00
+
+	// 获取当前周的结束
+	// Get the end of the current week
+	endOfWeek := now.EndOfWeek()
+	fmt.Println("End of Week:", endOfWeek.Format("2006-01-02 15:04:05"))
+	// Expected: End of Week: <Saturday of the current week> 23:59:59
+	
+	// 获取周一开始的当前周的起始日期
+	// Get the start of the current week starting from Monday
+	startOfWeek := now.StartOfWeekFromMonday()
+	fmt.Println("Start of Week from Monday:", startOfWeek.Format("2006-01-02 15:04:05"))
+	// 预计结果：Start of Week from Monday: <date of last Monday> 00:00:00
+
+	// 获取以周一开始的当前周的结束日期
+	// Get the end of the current week ending on Sunday
+	endOfWeek := now.EndOfWeekFromMonday()
+	fmt.Println("End of Week from Monday:", endOfWeek.Format("2006-01-02 15:04:05"))
+	// 预计结果：End of Week from Monday: <date of next Sunday> 23:59:59
 
 	// 时区转换
 	// Time zone conversion

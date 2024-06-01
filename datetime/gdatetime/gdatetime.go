@@ -71,8 +71,8 @@ func Of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond int) (*GDate
 	if second < 0 || second > 59 {
 		return nil, errors.New("second must be between 0 and 59")
 	}
-	if nanoOfSecond < 0 || nanoOfSecond > 999999999 {
-		return nil, errors.New("nanosecond must be between 0 and 999999999")
+	if nanoOfSecond < 0 || nanoOfSecond > timeconst.MAX_NANO {
+		return nil, errors.New("nanosecond must be between 0 and timeconst.MAX_NANO")
 	}
 	t := time.Date(year, time.Month(month), dayOfMonth, hour, minute, second, nanoOfSecond, time.Local)
 	return Create(t), nil
@@ -215,8 +215,8 @@ func (gdt *GDateTime) WithSecond(second int) (*GDateTime, error) {
 
 // WithNano Returns a copy of this GDateTime with the nanosecond altered.
 func (gdt *GDateTime) WithNano(nano int) (*GDateTime, error) {
-	if nano < 0 || nano > 999_999_999 {
-		return nil, errors.New("nanosecond must be between 0 and 999999999") //
+	if nano < 0 || nano > timeconst.MAX_NANO {
+		return nil, errors.New("nanosecond must be between 0 and timeconst.MAX_NANO") //
 	}
 	newTime := time.Date(gdt.t.Year(), gdt.t.Month(), gdt.t.Day(), gdt.t.Hour(), gdt.t.Minute(), gdt.t.Second(), nano, gdt.t.Location())
 	return Create(newTime), nil
@@ -343,6 +343,55 @@ func (gdt *GDateTime) MinusSeconds(seconds int) *GDateTime {
 func (gdt *GDateTime) MinusNanos(nanos int) *GDateTime {
 	newTime := gdt.t.Add(time.Duration(-nanos) * time.Nanosecond)
 	return Create(newTime)
+}
+
+// StartOfMonth returns a new GDateTime instance set to the start of the month of the original GDateTime.
+func (gdt *GDateTime) StartOfMonth() *GDateTime {
+	startOfMonth := time.Date(gdt.t.Year(), gdt.t.Month(), 1, 0, 0, 0, 0, gdt.t.Location())
+	return Create(startOfMonth)
+}
+
+// EndOfMonth returns a new GDateTime instance set to the end of the month of the original GDateTime.
+func (gdt *GDateTime) EndOfMonth() *GDateTime {
+	endOfMonth := time.Date(gdt.t.Year(), gdt.t.Month(), daysInMonth(gdt.t.Year(), int(gdt.t.Month())), 23, 59, 59, timeconst.MAX_NANO, gdt.t.Location())
+	return Create(endOfMonth)
+}
+
+// StartOfWeek returns a new GDateTime instance set to the start of the week of the original GDateTime.
+func (gdt *GDateTime) StartOfWeek() *GDateTime {
+	// Weekday returns Sunday as 0
+	offset := int(gdt.t.Weekday())
+	startOfWeek := gdt.t.AddDate(0, 0, -offset) // Adjust to start of the week, assuming week starts on Sunday
+	startOfWeek = time.Date(startOfWeek.Year(), startOfWeek.Month(), startOfWeek.Day(), 0, 0, 0, 0, startOfWeek.Location())
+	return Create(startOfWeek)
+}
+
+// EndOfWeek returns a new GDateTime instance set to the end of the week of the original GDateTime.
+func (gdt *GDateTime) EndOfWeek() *GDateTime {
+	offset := 6 - int(gdt.t.Weekday()) // Assuming week starts on Sunday, end on Saturday
+	endOfWeek := gdt.t.AddDate(0, 0, offset)
+	endOfWeek = time.Date(endOfWeek.Year(), endOfWeek.Month(), endOfWeek.Day(), 23, 59, 59, timeconst.MAX_NANO, endOfWeek.Location())
+	return Create(endOfWeek)
+}
+
+// StartOfWeekFromMonday returns a new GDateTime instance set to the start of the week (starting from Monday) of the original GDateTime.
+func (gdt *GDateTime) StartOfWeekFromMonday() *GDateTime {
+	// Weekday returns Sunday as 0, hence Monday as 1
+	offset := (int(gdt.t.Weekday()) + 6) % 7 // Adjust to start of the week, assuming week starts on Monday
+	startOfWeek := gdt.t.AddDate(0, 0, -offset)
+	startOfWeek = time.Date(startOfWeek.Year(), startOfWeek.Month(), startOfWeek.Day(), 0, 0, 0, 0, startOfWeek.Location())
+	return Create(startOfWeek)
+}
+
+// EndOfWeekFromMonday returns a new GDateTime instance set to the end of the week (ending on Sunday) of the original GDateTime.
+func (gdt *GDateTime) EndOfWeekFromMonday() *GDateTime {
+	offset := 7 - int(gdt.t.Weekday()) // Assuming week starts on Monday, end on Sunday
+	if offset == 7 {
+		offset = 0
+	}
+	endOfWeek := gdt.t.AddDate(0, 0, offset)
+	endOfWeek = time.Date(endOfWeek.Year(), endOfWeek.Month(), endOfWeek.Day(), 23, 59, 59, 999999999, endOfWeek.Location())
+	return Create(endOfWeek)
 }
 
 // StartOfDay returns a new GDateTime instance set to the start of the day (00:00:00) of the original GDateTime.

@@ -815,3 +815,60 @@ func TestFormat(t *testing.T) {
 		t.Errorf("Full date Format failed, expected %v, got %v", expected, result)
 	}
 }
+
+func TestMonthAndWeekBoundaries(t *testing.T) {
+	// Assume we're using a known date for testing: 15th June 2023
+	testDate := time.Date(2023, time.June, 15, 12, 0, 0, 0, time.UTC)
+	gdt := Create(testDate)
+
+	// Start of Month
+	startOfMonth := gdt.StartOfMonth()
+	expectedStartOfMonth := time.Date(2023, time.June, 1, 0, 0, 0, 0, time.UTC)
+	if startOfMonth.t != expectedStartOfMonth {
+		t.Errorf("StartOfMonth failed, expected %v, got %v", expectedStartOfMonth, startOfMonth.t)
+	}
+
+	// End of Month
+	endOfMonth := gdt.EndOfMonth()
+	expectedEndOfMonth := time.Date(2023, time.June, 30, 23, 59, 59, 999999999, time.UTC)
+	if endOfMonth.t != expectedEndOfMonth {
+		t.Errorf("EndOfMonth failed, expected %v, got %v", expectedEndOfMonth, endOfMonth.t)
+	}
+
+	// Start of Week assuming week starts on Sunday
+	startOfWeek := gdt.StartOfWeek()
+	expectedStartOfWeek := time.Date(2023, time.June, 11, 0, 0, 0, 0, time.UTC) // June 11th is Sunday
+	if startOfWeek.t != expectedStartOfWeek {
+		t.Errorf("StartOfWeek failed, expected %v, got %v", expectedStartOfWeek, startOfWeek.t)
+	}
+
+	// End of Week assuming week ends on Saturday
+	endOfWeek := gdt.EndOfWeek()
+	expectedEndOfWeek := time.Date(2023, time.June, 17, 23, 59, 59, 999999999, time.UTC) // June 17th is Saturday
+	if endOfWeek.t != expectedEndOfWeek {
+		t.Errorf("EndOfWeek failed, expected %v, got %v", expectedEndOfWeek, endOfWeek.t)
+	}
+}
+
+func TestWeekBoundariesFromMonday(t *testing.T) {
+	// 定义一个已知的日期用于测试：2023年6月15日，这是一个周四。
+	// Define a known date for testing: June 15, 2023, which is a Thursday.
+	testDate := time.Date(2023, time.June, 15, 12, 0, 0, 0, time.UTC)
+	gdt := Create(testDate)
+
+	// 测试从周一开始的周的开始
+	// Test the start of the week starting from Monday
+	startOfWeek := gdt.StartOfWeekFromMonday()
+	expectedStartOfWeek := time.Date(2023, time.June, 12, 0, 0, 0, 0, time.UTC) // June 12, 2023, is Monday
+	if startOfWeek.t != expectedStartOfWeek {
+		t.Errorf("StartOfWeekFromMonday failed, expected %v, got %v", expectedStartOfWeek, startOfWeek.t)
+	}
+
+	// 测试从周一开始的周的结束
+	// Test the end of the week ending on Sunday
+	endOfWeek := gdt.EndOfWeekFromMonday()
+	expectedEndOfWeek := time.Date(2023, time.June, 18, 23, 59, 59, 999999999, time.UTC) // June 18, 2023, is Sunday
+	if endOfWeek.t != expectedEndOfWeek {
+		t.Errorf("EndOfWeekFromMonday failed, expected %v, got %v", expectedEndOfWeek, endOfWeek.t)
+	}
+}
