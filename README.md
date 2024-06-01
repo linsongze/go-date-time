@@ -1,5 +1,6 @@
 # go-date-time
-Time Handling Utilities for Go
+Simple Time Handling Utilities for Go
+
 
 # Usage
 -------------
