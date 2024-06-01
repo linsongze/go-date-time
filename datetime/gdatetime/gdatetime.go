@@ -2,6 +2,7 @@ package gdatetime
 
 import (
 	"errors"
+	"github.com/linsongze/go-date-time/datetime/timeconst"
 	"github.com/linsongze/go-date-time/datetime/timeunit"
 	"time"
 )
@@ -352,7 +353,7 @@ func (gdt *GDateTime) StartOfDay() *GDateTime {
 
 // EndOfDay returns a new GDateTime instance set to the end of the day (23:59:59) of the original GDateTime.
 func (gdt *GDateTime) EndOfDay() *GDateTime {
-	endOfDay := time.Date(gdt.t.Year(), gdt.t.Month(), gdt.t.Day(), 23, 59, 59, 0, gdt.t.Location())
+	endOfDay := time.Date(gdt.t.Year(), gdt.t.Month(), gdt.t.Day(), 23, 59, 59, timeconst.MAX_NANO, gdt.t.Location())
 	return Create(endOfDay)
 }
 
