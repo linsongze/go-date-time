@@ -2,6 +2,7 @@ package gdatetime
 
 import (
 	"fmt"
+	"github.com/linsongze/go-date-time/datetime/timeconst"
 	"github.com/linsongze/go-date-time/datetime/timeunit"
 	"testing"
 	"time"
@@ -623,7 +624,7 @@ func TestStartOfDay(t *testing.T) {
 func TestEndOfDay(t *testing.T) {
 	initialTime := time.Date(2023, 6, 15, 14, 30, 59, 123456789, time.UTC)
 	gdt := Create(initialTime)
-	expectedTime := time.Date(2023, 6, 15, 23, 59, 59, 0, time.UTC)
+	expectedTime := time.Date(2023, 6, 15, 23, 59, 59, timeconst.MAX_NANO, time.UTC)
 
 	endOfDay := gdt.EndOfDay()
 	if !endOfDay.t.Equal(expectedTime) {
