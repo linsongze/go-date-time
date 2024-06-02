@@ -21,6 +21,27 @@ func Now() *GDateTime {
 	return &GDateTime{t: time.Now()}
 }
 
+// Parse dateStr use time layout
+func Parse(dateStr string, layout string) (*GDateTime, error) {
+	t, err := time.Parse(layout, dateStr)
+	if err != nil {
+		return nil, err
+	}
+	return Create(t), nil
+}
+
+// FormUnixTimestamp Create GDateTime use unix timestamp
+func FormUnixTimestamp(timestamp int64, nano int64) (*GDateTime, error) {
+	t := time.Unix(timestamp, nano)
+	return Create(t), nil
+}
+
+// FormMillisTimestamp Create GDateTime use unix millis timestamp
+func FormMillisTimestamp(timestamp int64) (*GDateTime, error) {
+	t := time.UnixMilli(timestamp)
+	return Create(t), nil
+}
+
 // isLeapYear determines if the given year is a leap year.
 func isLeapYear(year int) bool {
 	return (year%4 == 0 && year%100 != 0) || year%400 == 0

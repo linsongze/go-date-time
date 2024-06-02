@@ -872,3 +872,44 @@ func TestWeekBoundariesFromMonday(t *testing.T) {
 		t.Errorf("EndOfWeekFromMonday failed, expected %v, got %v", expectedEndOfWeek, endOfWeek.t)
 	}
 }
+func TestParse(t *testing.T) {
+	dateStr := "2023-06-02T15:04:05Z"
+	layout := time.RFC3339
+	gdt, err := Parse(dateStr, layout)
+	if err != nil {
+		t.Errorf("Parse failed: %v", err)
+	}
+	expectedTime := "2023-06-02 15:04:05 +0000 UTC"
+	if gdt.ToTime().String() != expectedTime {
+		t.Errorf("Expected %v, got %v", expectedTime, gdt.ToTime().String())
+	}
+}
+
+func TestFormUnixTimestamp(t *testing.T) {
+	timestamp := int64(1654172405) // Equivalent to 2022-06-02 20:20:05.5 +0800 CST
+	nano := int64(500000000)       // 0.5 second
+	gdt, err := FormUnixTimestamp(timestamp, nano)
+	location, _ := time.LoadLocation("Asia/Shanghai")
+	gdt = gdt.SwitchZone(*location)
+	if err != nil {
+		t.Errorf("FormUnixTimestamp failed: %v", err)
+	}
+	expectedTime := "2022-06-02 20:20:05.5 +0800 CST"
+	if gdt.t.String() != expectedTime {
+		t.Errorf("Expected %v, got %v", expectedTime, gdt.ToTime().String())
+	}
+}
+
+func TestFormMillisTimestamp(t *testing.T) {
+	millisTimestamp := int64(1654172405000) // Equivalent to 2022-06-02 20:20:05 +0800 CST
+	gdt, err := FormMillisTimestamp(millisTimestamp)
+	location, _ := time.LoadLocation("Asia/Shanghai")
+	gdt = gdt.SwitchZone(*location)
+	if err != nil {
+		t.Errorf("FormMillisTimestamp failed: %v", err)
+	}
+	expectedTime := "2022-06-02 20:20:05 +0800 CST"
+	if gdt.ToTime().String() != expectedTime {
+		t.Errorf("Expected %v, got %v", expectedTime, gdt.ToTime().String())
+	}
+}

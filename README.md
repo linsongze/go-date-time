@@ -145,6 +145,10 @@ Now() *GDateTime // Gets a GDateTime instance representing the current time. (�
 Of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond int) (*GDateTime, error) // Obtains an instance of GDateTime for a specific year, month, day, hour, minute, second, and nanosecond. (根据具体日期和时间创建实例)
 Of2(year, month, dayOfMonth, hour, minute, second int) (*GDateTime, error) // Obtains an instance of GDateTime for a specific year, month, day, hour, minute, and second with nanosecond set to zero. (创建具体日期时间实例，纳秒为0)
 Of3(year, month, dayOfMonth, hour, minute int) (*GDateTime, error) // Obtains an instance of GDateTime for a specific year, month, day, hour, and minute with second and nanosecond set to zero. (创建具体日期时间实例，秒和纳秒为0)
+Parse(dateStr string, layout string) (*GDateTime, error) // Parses a date string using a specific time layout. (解析日期字符串)
+FormUnixTimestamp(timestamp int64, nano int64) (*GDateTime, error) // Creates a GDateTime instance using a Unix timestamp with additional nanoseconds. (使用Unix时间戳创建实例)
+FormMillisTimestamp(timestamp int64) (*GDateTime, error) // Creates a GDateTime instance using a Unix timestamp in milliseconds. (使用毫秒级Unix时间戳创建实例)
+
 ToTime() time.Time // Converts a GDateTime instance to a time.Time type. (转换为time.Time类型)
 GetSecondTimestamp() int64 // Gets the timestamp in seconds. (获取秒级时间戳)
 GetMillSecondTimestamp() int64 // Gets the timestamp in milliseconds. (获取毫秒级时间戳)
@@ -157,6 +161,7 @@ GetHour() int // Gets the hour. (获取小时)
 GetMinute() int // Gets the minute. (获取分钟)
 GetSecond() int // Gets the second. (获取秒)
 GetNano() int // Gets the nanosecond. (获取纳秒)
+
 WithYear(year int) (*GDateTime, error) // Sets the year. (设置年份)
 WithMonth(month int) (*GDateTime, error) // Sets the month. (设置月份)
 WithDayOfMonth(day int) (*GDateTime, error) // Sets the day of the month. (设置月中日)
@@ -165,6 +170,7 @@ WithHour(hour int) (*GDateTime, error) // Sets the hour. (设置小时)
 WithMinute(minute int) (*GDateTime, error) // Sets the minute. (设置分钟)
 WithSecond(second int) (*GDateTime, error) // Sets the second. (设置秒)
 WithNano(nano int) (*GDateTime, error) // Sets the nanosecond. (设置纳秒)
+
 PlusYears(years int) *GDateTime // Adds the specified number of years to the GDateTime. (增加年份)
 PlusMonths(months int) *GDateTime // Adds the specified number of months to the GDateTime. (增加月份)
 PlusWeeks(weeks int) *GDateTime // Adds the specified number of weeks to the GDateTime. (增加周数)
@@ -174,6 +180,7 @@ PlusMinutes(minutes int) *GDateTime // Adds the specified number of minutes to t
 PlusSeconds(seconds int) *GDateTime // Adds the specified number of seconds to the GDateTime. (增加秒数)
 PlusNanos(nanos int) *GDateTime // Adds the specified number of nanoseconds to the GDateTime. (增加纳秒)
 Plus(amountToAdd int, unit timeunit.TimeUnit) *GDateTime // Adjusts the time based on the specified amount and unit. (根据数量和单位调整时间)
+
 Minus(years int, unit timeunit.TimeUnit) *GDateTime // Subtracts the specified amount and unit from the time. (根据数量和单位减少时间)
 MinusYears(years int) *GDateTime // Subtracts the specified number of years from the GDateTime. (减少年份)
 MinusMonths(months int) *GDateTime // Subtracts the specified number of months from the GDateTime. (减少月份)
@@ -183,6 +190,7 @@ MinusHours(hours int) *GDateTime // Subtracts the specified number of hours from
 MinusMinutes(minutes int) *GDateTime // Subtracts the specified number of minutes from the GDateTime. (减少分钟)
 MinusSeconds(seconds int) *GDateTime // Subtracts the specified number of seconds from the GDateTime. (减少秒数)
 MinusNanos(nanos int) *GDateTime // Subtracts the specified number of nanoseconds from the GDateTime. (减少纳秒)
+
 StartOfMonth() *GDateTime // Sets the date to the start of the month. (设置为月初)
 EndOfMonth() *GDateTime // Sets the date to the end of the month. (设置为月末)
 StartOfWeek() *GDateTime // Sets the date to the start of the week (week starts on Sunday). (设置为周初)
@@ -191,14 +199,17 @@ StartOfWeekFromMonday() *GDateTime // Sets the date to the start of the week (we
 EndOfWeekFromMonday() *GDateTime // Sets the date to the end of the week (week ends on Sunday). (设置为从周一开始的周末)
 StartOfDay() *GDateTime // Sets the date to the start of the day. (设置为当天开始)
 EndOfDay() *GDateTime // Sets the date to the end of the day. (设置为当天结束)
+
 SwitchZone(loc time.Location) *GDateTime // Changes the time zone of the GDateTime. (更改时区)
 ResetZoneToDefault() *GDateTime // Resets the time zone to local. (重置为本地时区)
+
 EqualDate(other *GDateTime) bool // Checks if the year, month, and day of two GDateTime instances are the same. (比较年月日是否相同)
 CompareTo(other *GDateTime) int // Compares two GDateTime instances to determine their chronological order. (比较两个实例的时间顺序)
 CompareDate(other *GDateTime) int // Compares the date components (year, month, day) of two GDateTime instances. (比较两个实例的日期顺序)
 CompareTime(other *GDateTime) int // Compares the time components (hour, minute, second) of two GDateTime instances. (比较两个实例的时间顺序)
 IsBefore(other *GDateTime) bool // Checks if this GDateTime instance is before the provided GDateTime instance. (判断是否早于另一个实例)
 IsAfter(other *GDateTime) bool // Checks if this GDateTime instance is after the provided GDateTime instance. (判断是否晚于另一个实例)
+
 Format(layout string) string // Formats the GDateTime based on the time package layout specifier. (根据格式规范格式化时间)
 
 ```
