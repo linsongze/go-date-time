@@ -913,3 +913,39 @@ func TestFormMillisTimestamp(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expectedTime, gdt.ToTime().String())
 	}
 }
+
+// Test functions for year, month, day, hour, minute, and second differences
+func TestTimeDifferences(t *testing.T) {
+	startDate := Create(time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC))
+	endDate := Create(time.Date(2022, 3, 2, 23, 59, 59, 0, time.UTC))
+
+	// Test YearsBetween
+	if diff := startDate.YearsBetween(endDate); diff != 2 {
+		t.Errorf("Expected 2 years, got %d", diff)
+	}
+
+	// Test MonthsBetween
+	if diff := startDate.MonthsBetween(endDate); diff != 26 {
+		t.Errorf("Expected 26 months, got %d", diff)
+	}
+
+	// Test DaysBetween
+	if diff := startDate.DaysBetween(endDate); diff != 791 {
+		t.Errorf("Expected 792 days, got %d", diff)
+	}
+
+	// Test HoursBetween
+	if diff := startDate.HoursBetween(endDate); diff != 19007 {
+		t.Errorf("Expected 19047 hours, got %d", diff)
+	}
+
+	// Test MinutesBetween
+	if diff := startDate.MinutesBetween(endDate); diff != 1140479 {
+		t.Errorf("Expected 1142839 minutes, got %d", diff)
+	}
+
+	// Test SecondsBetween
+	if diff := startDate.SecondsBetween(endDate); diff != 68428799 {
+		t.Errorf("Expected 68570399 seconds, got %d", diff)
+	}
+}

@@ -510,3 +510,44 @@ func (gdt *GDateTime) IsAfter(other *GDateTime) bool {
 func (gdt *GDateTime) Format(layout string) string {
 	return gdt.t.Format(layout)
 }
+
+// YearsBetween calculates the difference in full years between two GDateTime instances,
+// subtracting a year if the end date is before the start date's month and day.
+func (gdt *GDateTime) YearsBetween(end *GDateTime) int {
+	yearDiff := end.GetYear() - gdt.GetYear()
+	if end.GetMonth() < gdt.GetMonth() || (end.GetMonth() == gdt.GetMonth() && end.GetDayOfMonth() < gdt.GetDayOfMonth()) {
+		yearDiff--
+	}
+	return yearDiff
+}
+
+// MonthsBetween calculates the difference in full months between two GDateTime instances,
+// subtracting a month if the end date's day is before the start date's day.
+func (gdt *GDateTime) MonthsBetween(end *GDateTime) int {
+	monthDiff := int(end.GetMonth() - gdt.GetMonth() + 12*(end.GetYear()-gdt.GetYear()))
+	if end.GetDayOfMonth() < gdt.GetDayOfMonth() {
+		monthDiff--
+	}
+	return monthDiff
+}
+
+// DaysBetween calculates the difference in full days between two GDateTime instances,
+// based on the actual time difference.
+func (gdt *GDateTime) DaysBetween(end *GDateTime) int {
+	return int(end.ToTime().Sub(gdt.ToTime()).Hours() / 24)
+}
+
+// HoursBetween calculates the difference in hours between two GDateTime instances.
+func (gdt *GDateTime) HoursBetween(end *GDateTime) int {
+	return int(end.ToTime().Sub(gdt.ToTime()).Hours())
+}
+
+// MinutesBetween calculates the difference in minutes between two GDateTime instances.
+func (gdt *GDateTime) MinutesBetween(end *GDateTime) int {
+	return int(end.ToTime().Sub(gdt.ToTime()).Minutes())
+}
+
+// SecondsBetween calculates the difference in seconds between two GDateTime instances.
+func (gdt *GDateTime) SecondsBetween(end *GDateTime) int {
+	return int(end.ToTime().Sub(gdt.ToTime()).Seconds())
+}

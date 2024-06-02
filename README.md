@@ -212,6 +212,14 @@ IsAfter(other *GDateTime) bool // Checks if this GDateTime instance is after the
 
 Format(layout string) string // Formats the GDateTime based on the time package layout specifier. (根据格式规范格式化时间)
 
+
+YearsBetween(end *GDateTime) int // Calculates the full year difference between two dates, adjusting for incomplete year spans. (计算两个日期之间完整年份的差异，考虑不完整的年份差距)
+MonthsBetween(end *GDateTime) int // Calculates the full month difference between two dates, adjusting for incomplete month spans. (计算两个日期之间完整月份的差异，考虑不完整的月份差距)
+DaysBetween(end *GDateTime) int // Calculates the full day difference between two dates based on actual time difference. (根据实际时间差异计算两个日期之间的天数差异)
+HoursBetween(end *GDateTime) int // Calculates the hour difference between two timestamps. (计算两个时间戳之间的小时差)
+MinutesBetween(end *GDateTime) int // Calculates the minute difference between two timestamps. (计算两个时间戳之间的分钟差)
+SecondsBetween(end *GDateTime) int // Calculates the second difference between two timestamps. (计算两个时间戳之间的秒差)
+
 ```
 
 -----------
