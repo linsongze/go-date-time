@@ -243,6 +243,24 @@ func (gdt *GDateTime) WithNano(nano int) (*GDateTime, error) {
 	return Create(newTime), nil
 }
 
+// TruncateTo truncates the GDateTime to the specified unit.
+func (gdt *GDateTime) TruncateTo(unit timeunit.TimeUnit) *GDateTime {
+	var d time.Duration
+	switch unit {
+	case timeunit.NANOS:
+		d = time.Nanosecond
+	case timeunit.SECONDS:
+		d = time.Second
+	case timeunit.MINUTES:
+		d = time.Minute
+	case timeunit.HOURS:
+		d = time.Hour
+	default:
+		return gdt // If the unit is not recognized, return the original GDateTime
+	}
+	return Create(gdt.t.Truncate(d))
+}
+
 // PlusYears adds the specified number of years to the GDateTime, returning a new GDateTime instance.
 func (gdt *GDateTime) PlusYears(years int) *GDateTime {
 	newTime := gdt.t.AddDate(years, 0, 0)
@@ -511,6 +529,16 @@ func (gdt *GDateTime) Format(layout string) string {
 	return gdt.t.Format(layout)
 }
 
+// ToRFC1123 formats the GDateTime according to RFC 1123 format.
+func (gdt *GDateTime) ToRFC1123() string {
+	return gdt.t.Format(time.RFC1123)
+}
+
+// ToISO8601 formats the GDateTime according to ISO 8601 format.
+func (gdt *GDateTime) ToISO8601() string {
+	return gdt.t.Format(time.RFC3339) // RFC3339 is compatible with ISO 8601 for date-time formats
+}
+
 // YearsBetween calculates the difference in full years between two GDateTime instances,
 // subtracting a year if the end date is before the start date's month and day.
 func (gdt *GDateTime) YearsBetween(end *GDateTime) int {
@@ -550,4 +578,9 @@ func (gdt *GDateTime) MinutesBetween(end *GDateTime) int {
 // SecondsBetween calculates the difference in seconds between two GDateTime instances.
 func (gdt *GDateTime) SecondsBetween(end *GDateTime) int {
 	return int(end.ToTime().Sub(gdt.ToTime()).Seconds())
+}
+
+// IsWithinRange checks if the GDateTime is within the range specified by start and end.
+func (gdt *GDateTime) IsWithinRange(start, end *GDateTime) bool {
+	return !gdt.t.Before(start.t) && !gdt.t.After(end.t)
 }

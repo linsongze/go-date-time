@@ -170,6 +170,8 @@ WithHour(hour int) (*GDateTime, error) // Sets the hour. (设置小时)
 WithMinute(minute int) (*GDateTime, error) // Sets the minute. (设置分钟)
 WithSecond(second int) (*GDateTime, error) // Sets the second. (设置秒)
 WithNano(nano int) (*GDateTime, error) // Sets the nanosecond. (设置纳秒)
+TruncateTo(unit timeunit.TimeUnit) *GDateTime // Truncates this GDateTime to the specified unit. (将此GDateTime截断到指定的单位)
+
 
 PlusYears(years int) *GDateTime // Adds the specified number of years to the GDateTime. (增加年份)
 PlusMonths(months int) *GDateTime // Adds the specified number of months to the GDateTime. (增加月份)
@@ -219,6 +221,7 @@ DaysBetween(end *GDateTime) int // Calculates the full day difference between tw
 HoursBetween(end *GDateTime) int // Calculates the hour difference between two timestamps. (计算两个时间戳之间的小时差)
 MinutesBetween(end *GDateTime) int // Calculates the minute difference between two timestamps. (计算两个时间戳之间的分钟差)
 SecondsBetween(end *GDateTime) int // Calculates the second difference between two timestamps. (计算两个时间戳之间的秒差)
+IsWithinRange(start, end *GDateTime) bool // Checks if this GDateTime instance is within the range specified by start and end. (判断此实例是否在指定的开始和结束实例之间)
 
 ```
 

@@ -949,3 +949,37 @@ func TestTimeDifferences(t *testing.T) {
 		t.Errorf("Expected 68570399 seconds, got %d", diff)
 	}
 }
+
+func TestIsWithinRange(t *testing.T) {
+	baseTime := time.Date(2022, time.June, 10, 10, 30, 0, 0, time.UTC)
+	gdtBase := Create(baseTime)
+
+	startTime := time.Date(2022, time.June, 1, 0, 0, 0, 0, time.UTC)
+	gdtStart := Create(startTime)
+
+	endTime := time.Date(2022, time.June, 30, 0, 0, 0, 0, time.UTC)
+	gdtEnd := Create(endTime)
+
+	if !gdtBase.IsWithinRange(gdtStart, gdtEnd) {
+		t.Errorf("Expected true but got false")
+	}
+
+	outsideTime := time.Date(2022, time.July, 1, 0, 0, 0, 0, time.UTC)
+	gdtOutside := Create(outsideTime)
+
+	if gdtBase.IsWithinRange(gdtOutside, gdtEnd) {
+		t.Errorf("Expected false but got true")
+	}
+}
+
+func TestTruncateTo(t *testing.T) {
+	fullTime := time.Date(2022, time.June, 15, 14, 35, 45, 100, time.UTC)
+	gdtFull := Create(fullTime)
+
+	truncatedToHour := gdtFull.TruncateTo(timeunit.HOURS)
+	expectedHour := time.Date(2022, time.June, 15, 14, 0, 0, 0, time.UTC)
+
+	if !truncatedToHour.EqualDate(Create(expectedHour)) {
+		t.Errorf("Expected hour truncation to %v, got %v", expectedHour, truncatedToHour.ToTime())
+	}
+}
