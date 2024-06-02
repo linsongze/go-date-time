@@ -632,15 +632,15 @@ func TestEndOfDay(t *testing.T) {
 	}
 }
 
-func TestSwitchZone(t *testing.T) {
+func TestConvertToZone(t *testing.T) {
 	initialTime := time.Date(2023, 6, 15, 12, 0, 0, 0, time.UTC)
 	gdt := Create(initialTime)
 	newYorkLocation, _ := time.LoadLocation("America/New_York") // UTC-5
 
 	expectedTime := initialTime.In(newYorkLocation)
-	switchedTime := gdt.SwitchZone(*newYorkLocation)
+	switchedTime := gdt.ConvertToZone(*newYorkLocation)
 	if !switchedTime.t.Equal(expectedTime) {
-		t.Errorf("SwitchZone failed, expected %v, got %v", expectedTime, switchedTime.t)
+		t.Errorf("ConvertToZone failed, expected %v, got %v", expectedTime, switchedTime.t)
 	}
 }
 
@@ -648,7 +648,7 @@ func TestResetZoneToDefault(t *testing.T) {
 	initialTime := time.Date(2023, 6, 15, 12, 0, 0, 0, time.UTC)
 	gdt := Create(initialTime)
 	newYorkLocation, _ := time.LoadLocation("America/New_York")
-	gdt = gdt.SwitchZone(*newYorkLocation) // Change time zone to New York
+	gdt = gdt.ConvertToZone(*newYorkLocation) // Change time zone to New York
 
 	expectedTime := initialTime.In(time.Local)
 	resetTime := gdt.ResetZoneToDefault()
@@ -890,7 +890,7 @@ func TestFormUnixTimestamp(t *testing.T) {
 	nano := int64(500000000)       // 0.5 second
 	gdt, err := FormUnixTimestamp(timestamp, nano)
 	location, _ := time.LoadLocation("Asia/Shanghai")
-	gdt = gdt.SwitchZone(*location)
+	gdt = gdt.ConvertToZone(*location)
 	if err != nil {
 		t.Errorf("FormUnixTimestamp failed: %v", err)
 	}
@@ -904,7 +904,7 @@ func TestFormMillisTimestamp(t *testing.T) {
 	millisTimestamp := int64(1654172405000) // Equivalent to 2022-06-02 20:20:05 +0800 CST
 	gdt, err := FormMillisTimestamp(millisTimestamp)
 	location, _ := time.LoadLocation("Asia/Shanghai")
-	gdt = gdt.SwitchZone(*location)
+	gdt = gdt.ConvertToZone(*location)
 	if err != nil {
 		t.Errorf("FormMillisTimestamp failed: %v", err)
 	}

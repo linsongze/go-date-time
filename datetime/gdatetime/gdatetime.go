@@ -427,8 +427,8 @@ func (gdt *GDateTime) EndOfDay() *GDateTime {
 	return Create(endOfDay)
 }
 
-// SwitchZone change GDateTime zone
-func (gdt *GDateTime) SwitchZone(loc time.Location) *GDateTime {
+// ConvertToZone change GDateTime zone
+func (gdt *GDateTime) ConvertToZone(loc time.Location) *GDateTime {
 	t := gdt.t.In(&loc)
 	return Create(t)
 }

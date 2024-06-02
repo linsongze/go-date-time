@@ -94,7 +94,7 @@ func main() {
 	// 时区转换
 	// Time zone conversion
 	location, _ := time.LoadLocation("America/New_York")
-	timeInNY := now.SwitchZone(*location)
+	timeInNY := now.ConvertToZone(*location)
 	fmt.Println("Current Time in New York:", timeInNY.Format("2006-01-02 15:04:05 MST"))
 	// Expected: Current Time in New York: <time in NY>
 
@@ -200,7 +200,7 @@ EndOfWeekFromMonday() *GDateTime // Sets the date to the end of the week (week e
 StartOfDay() *GDateTime // Sets the date to the start of the day. (设置为当天开始)
 EndOfDay() *GDateTime // Sets the date to the end of the day. (设置为当天结束)
 
-SwitchZone(loc time.Location) *GDateTime // Changes the time zone of the GDateTime. (更改时区)
+ConvertToZone(loc time.Location) *GDateTime // Changes the time zone of the GDateTime. (更改时区)
 ResetZoneToDefault() *GDateTime // Resets the time zone to local. (重置为本地时区)
 
 EqualDate(other *GDateTime) bool // Checks if the year, month, and day of two GDateTime instances are the same. (比较年月日是否相同)
