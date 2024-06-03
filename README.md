@@ -161,6 +161,9 @@ GetHour() int // Gets the hour. (获取小时)
 GetMinute() int // Gets the minute. (获取分钟)
 GetSecond() int // Gets the second. (获取秒)
 GetNano() int // Gets the nanosecond. (获取纳秒)
+WeekOfYearStartsFromJan1() int // Returns the week number where January 1st is considered the start of the first week of the year. (返回周数，其中1月1日被视为一年中第一周的开始。)
+FirstFullWeekOfYear() int      // Returns the week number such that the first full week (Monday to Sunday) completely within the new year is considered the first week. (返回周数，其中年内第一个完整的周（周一到周日）被视为第一周。)
+WeekOfYearISO8601() int        // Returns the week number according to ISO 8601, where the week containing the first Thursday of the year is considered the first week. (根据ISO 8601返回周数，其中包含一年中第一个星期四的周被视为第一周。)
 
 WithYear(year int) (*GDateTime, error) // Sets the year. (设置年份)
 WithMonth(month int) (*GDateTime, error) // Sets the month. (设置月份)
@@ -201,6 +204,8 @@ StartOfWeekFromMonday() *GDateTime // Sets the date to the start of the week (we
 EndOfWeekFromMonday() *GDateTime // Sets the date to the end of the week (week ends on Sunday). (设置为从周一开始的周末)
 StartOfDay() *GDateTime // Sets the date to the start of the day. (设置为当天开始)
 EndOfDay() *GDateTime // Sets the date to the end of the day. (设置为当天结束)
+DaysInMonth(year, month int) int // returns the number of days in a given month for a specific year.
+
 
 ConvertToZone(loc time.Location) *GDateTime // Changes the time zone of the GDateTime. (更改时区)
 ResetZoneToDefault() *GDateTime // Resets the time zone to local. (重置为本地时区)

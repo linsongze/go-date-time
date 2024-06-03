@@ -169,6 +169,38 @@ func (gdt *GDateTime) GetNano() int {
 	return gdt.t.Nanosecond()
 }
 
+// WeekOfYearStartsFromJan1 calculates the week number starting from January 1st, considering the week containing January 1st as the first week of the year.
+func (gdt *GDateTime) WeekOfYearStartsFromJan1() int {
+	yearStart := time.Date(gdt.t.Year(), time.January, 1, 0, 0, 0, 0, gdt.t.Location())
+	yearStartWeekday := yearStart.Weekday()
+
+	daysSinceYearStart := gdt.t.YearDay() - 1
+	weekOfYear := (daysSinceYearStart+int(yearStartWeekday))/7 + 1
+	return weekOfYear
+}
+
+// FirstFullWeekOfYear calculates the week number such that the first full week (Monday through Sunday) that entirely falls within the new year counts as the first week of the year.
+func (gdt *GDateTime) FirstFullWeekOfYear() int {
+	jan1 := time.Date(gdt.t.Year(), time.January, 1, 0, 0, 0, 0, gdt.t.Location())
+	offset := int(time.Monday - jan1.Weekday())
+	if offset > 0 {
+		offset -= 7
+	}
+	firstFullWeekMonday := jan1.AddDate(0, 0, offset+7)
+
+	if gdt.t.Before(firstFullWeekMonday) {
+		return 0
+	}
+	daysSinceFirstFullWeek := gdt.t.Sub(firstFullWeekMonday).Hours() / 24
+	return int(daysSinceFirstFullWeek)/7 + 1
+}
+
+// WeekOfYearISO8601 calculates the week number according to the ISO 8601 standard, where the week containing the first Thursday of the year is considered the first week.
+func (gdt *GDateTime) WeekOfYearISO8601() int {
+	_, week := gdt.t.ISOWeek()
+	return week
+}
+
 // WithYear withYear creates a new GDateTime instance with the specified year, keeping other components the same.
 func (gdt *GDateTime) WithYear(year int) (*GDateTime, error) {
 	if year < 0 {

@@ -1036,3 +1036,33 @@ func TestFormatDate(t *testing.T) {
 		t.Errorf("expected %s, got %s", expectedDate, formattedDate)
 	}
 }
+func TestWeekCalculations(t *testing.T) {
+	// Define a test case struct
+	type testCase struct {
+		date         time.Time
+		expectedJan1 int
+		expectedFull int
+		expectedISO  int
+	}
+
+	// Example test cases for January 2024
+	testCases := []testCase{
+		{time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC), 1, 0, 1},
+		{time.Date(2024, 1, 2, 0, 0, 0, 0, time.UTC), 1, 0, 1},
+		{time.Date(2024, 1, 8, 0, 0, 0, 0, time.UTC), 2, 1, 2},
+		{time.Date(2024, 1, 15, 0, 0, 0, 0, time.UTC), 3, 2, 3},
+	}
+
+	for _, tc := range testCases {
+		gdt := Create(tc.date)
+		if week := gdt.WeekOfYearStartsFromJan1(); week != tc.expectedJan1 {
+			t.Errorf("WeekOfYearStartsFromJan1: Expected %d, got %d for date %s", tc.expectedJan1, week, tc.date)
+		}
+		if week := gdt.FirstFullWeekOfYear(); week != tc.expectedFull {
+			t.Errorf("FirstFullWeekOfYear: Expected %d, got %d for date %s", tc.expectedFull, week, tc.date)
+		}
+		if week := gdt.WeekOfYearISO8601(); week != tc.expectedISO {
+			t.Errorf("WeekOfYearISO8601: Expected %d, got %d for date %s", tc.expectedISO, week, tc.date)
+		}
+	}
+}
