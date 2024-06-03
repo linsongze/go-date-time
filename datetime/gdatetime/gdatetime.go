@@ -47,8 +47,8 @@ func isLeapYear(year int) bool {
 	return (year%4 == 0 && year%100 != 0) || year%400 == 0
 }
 
-// daysInMonth returns the number of days in a given month for a specific year.
-func daysInMonth(year, month int) int {
+// DaysInMonth returns the number of days in a given month for a specific year.
+func DaysInMonth(year, month int) int {
 	switch time.Month(month) {
 	case time.January, time.March, time.May, time.July, time.August, time.October, time.December:
 		return 31
@@ -189,7 +189,7 @@ func (gdt *GDateTime) WithMonth(month int) (*GDateTime, error) {
 
 // WithDayOfMonth Returns a copy of this GDateTime with the day-of-month altered.
 func (gdt *GDateTime) WithDayOfMonth(day int) (*GDateTime, error) {
-	if day < 1 || day > daysInMonth(gdt.t.Year(), int(gdt.t.Month())) {
+	if day < 1 || day > DaysInMonth(gdt.t.Year(), int(gdt.t.Month())) {
 		return nil, errors.New("invalid day for the month") // invalid day for the month
 	}
 	newTime := time.Date(gdt.t.Year(), gdt.t.Month(), day, gdt.t.Hour(), gdt.t.Minute(), gdt.t.Second(), gdt.t.Nanosecond(), gdt.t.Location())
@@ -392,7 +392,7 @@ func (gdt *GDateTime) StartOfMonth() *GDateTime {
 
 // EndOfMonth returns a new GDateTime instance set to the end of the month of the original GDateTime.
 func (gdt *GDateTime) EndOfMonth() *GDateTime {
-	endOfMonth := time.Date(gdt.t.Year(), gdt.t.Month(), daysInMonth(gdt.t.Year(), int(gdt.t.Month())), 23, 59, 59, timeconst.MAX_NANO, gdt.t.Location())
+	endOfMonth := time.Date(gdt.t.Year(), gdt.t.Month(), DaysInMonth(gdt.t.Year(), int(gdt.t.Month())), 23, 59, 59, timeconst.MAX_NANO, gdt.t.Location())
 	return Create(endOfMonth)
 }
 
