@@ -1011,3 +1011,28 @@ func TestWeekdays(t *testing.T) {
 		})
 	}
 }
+func TestFormatDateTime(t *testing.T) {
+	// 设置一个已知的时间点
+	testTime, _ := time.Parse("2006-01-02 15:04:05", "2024-06-10 14:48:00")
+	gdt := Create(testTime)
+
+	expectedDateTime := "2024-06-10 14:48:00"
+	formattedDateTime := gdt.FormatDateTime()
+
+	if formattedDateTime != expectedDateTime {
+		t.Errorf("expected %s, got %s", expectedDateTime, formattedDateTime)
+	}
+}
+
+func TestFormatDate(t *testing.T) {
+	// 设置一个已知的时间点
+	testTime, _ := time.Parse("2006-01-02", "2024-06-10")
+	gdt := Create(testTime)
+
+	expectedDate := "2024-06-10"
+	formattedDate := gdt.FormatDate()
+
+	if formattedDate != expectedDate {
+		t.Errorf("expected %s, got %s", expectedDate, formattedDate)
+	}
+}
