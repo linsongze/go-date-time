@@ -217,10 +217,10 @@ CompareTime(other *GDateTime) int // Compares the time components (hour, minute,
 IsBefore(other *GDateTime) bool // Checks if this GDateTime instance is before the provided GDateTime instance. (判断是否早于另一个实例)
 IsAfter(other *GDateTime) bool // Checks if this GDateTime instance is after the provided GDateTime instance. (判断是否晚于另一个实例)
 
-Format(layout string) string // Formats the GDateTime based on the time package layout specifier. (根据格式规范格式化时间)
+ToFormatString(layout string) string // Formats the GDateTime based on the time package layout specifier. (根据格式规范格式化时间)
 Strftime(f string) string //C style format date ,format document=>Striftime.md
-FormatDateTime() string // Returns the GDateTime as a string in the format yyyy-MM-dd HH:mm:ss. (将 GDateTime 格式化为字符串，格式为 yyyy-MM-dd HH:mm:ss。)
-FormatDate() string     // Returns the GDateTime as a string in the format yyyy-MM-dd. (将 GDateTime 格式化为字符串，格式为 yyyy-MM-dd。)
+ToDateTimeString() string // Returns the GDateTime as a string in the format yyyy-MM-dd HH:mm:ss. (将 GDateTime 格式化为字符串，格式为 yyyy-MM-dd HH:mm:ss。)
+ToFormatDateString() string     // Returns the GDateTime as a string in the format yyyy-MM-dd. (将 GDateTime 格式化为字符串，格式为 yyyy-MM-dd。)
 
 
 YearsBetween(end *GDateTime) int // Calculates the full year difference between two dates, adjusting for incomplete year spans. (计算两个日期之间完整年份的差异，考虑不完整的年份差距)

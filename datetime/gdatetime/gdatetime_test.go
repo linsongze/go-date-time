@@ -796,23 +796,23 @@ func TestFormat(t *testing.T) {
 
 	// Example layout (RFC3339)
 	expected := "2023-06-15T14:30:59Z"
-	result := gdt.Format(time.RFC3339)
+	result := gdt.ToFormatString(time.RFC3339)
 	if result != expected {
-		t.Errorf("Format failed, expected %v, got %v", expected, result)
+		t.Errorf("ToFormatString failed, expected %v, got %v", expected, result)
 	}
 
 	// Custom layout
 	expected = "15-06-2023 14:30"
-	result = gdt.Format("02-01-2006 15:04")
+	result = gdt.ToFormatString("02-01-2006 15:04")
 	if result != expected {
-		t.Errorf("Custom Format failed, expected %v, got %v", expected, result)
+		t.Errorf("Custom ToFormatString failed, expected %v, got %v", expected, result)
 	}
 
 	// Another custom layout to test day and month names
 	expected = "Thursday, Jun 15, 2023"
-	result = gdt.Format("Monday, Jan 02, 2006")
+	result = gdt.ToFormatString("Monday, Jan 02, 2006")
 	if result != expected {
-		t.Errorf("Full date Format failed, expected %v, got %v", expected, result)
+		t.Errorf("Full date ToFormatString failed, expected %v, got %v", expected, result)
 	}
 }
 
@@ -1004,7 +1004,7 @@ func TestWeekdays(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			result := tc.dayFunc().Format("2006-01-02")
+			result := tc.dayFunc().ToFormatString("2006-01-02")
 			if result != tc.expected {
 				t.Errorf("expected %s, got %s", tc.expected, result)
 			}
@@ -1017,7 +1017,7 @@ func TestFormatDateTime(t *testing.T) {
 	gdt := Create(testTime)
 
 	expectedDateTime := "2024-06-10 14:48:00"
-	formattedDateTime := gdt.FormatDateTime()
+	formattedDateTime := gdt.ToDateTimeString()
 
 	if formattedDateTime != expectedDateTime {
 		t.Errorf("expected %s, got %s", expectedDateTime, formattedDateTime)
@@ -1030,7 +1030,7 @@ func TestFormatDate(t *testing.T) {
 	gdt := Create(testTime)
 
 	expectedDate := "2024-06-10"
-	formattedDate := gdt.FormatDate()
+	formattedDate := gdt.ToDateString()
 
 	if formattedDate != expectedDate {
 		t.Errorf("expected %s, got %s", expectedDate, formattedDate)

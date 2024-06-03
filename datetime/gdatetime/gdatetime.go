@@ -556,8 +556,8 @@ func (gdt *GDateTime) IsAfter(other *GDateTime) bool {
 	return gdt.t.After(other.t)
 }
 
-// Format formats the GDateTime based on time package layout specifier.
-func (gdt *GDateTime) Format(layout string) string {
+// ToFormatString formats the GDateTime based on time package layout specifier.
+func (gdt *GDateTime) ToFormatString(layout string) string {
 	return gdt.t.Format(layout)
 }
 
@@ -571,14 +571,14 @@ func (gdt *GDateTime) ToISO8601() string {
 	return gdt.t.Format(time.RFC3339) // RFC3339 is compatible with ISO 8601 for date-time formats
 }
 
-// FormatDateTime return format yyyy-MM-dd HH:mm:ss
-func (gdt *GDateTime) FormatDateTime() string {
-	return gdt.Format("2006-01-02 15:04:05")
+// ToDateTimeString return format yyyy-MM-dd HH:mm:ss
+func (gdt *GDateTime) ToDateTimeString() string {
+	return gdt.ToFormatString("2006-01-02 15:04:05")
 }
 
-// FormatDate return format yyyy-MM-dd
-func (gdt *GDateTime) FormatDate() string {
-	return gdt.Format("2006-01-02")
+// ToDateString return format yyyy-MM-dd
+func (gdt *GDateTime) ToDateString() string {
+	return gdt.ToFormatString("2006-01-02")
 }
 
 // YearsBetween calculates the difference in full years between two GDateTime instances,
