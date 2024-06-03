@@ -584,3 +584,38 @@ func (gdt *GDateTime) SecondsBetween(end *GDateTime) int {
 func (gdt *GDateTime) IsWithinRange(start, end *GDateTime) bool {
 	return !gdt.t.Before(start.t) && !gdt.t.After(end.t)
 }
+
+// Monday returns the date of Monday for the current week, with weeks starting on Monday.
+func (gdt *GDateTime) Monday() *GDateTime {
+	return gdt.StartOfWeekFromMonday()
+}
+
+// Tuesday returns the date of Tuesday for the current week, with weeks starting on Monday.
+func (gdt *GDateTime) Tuesday() *GDateTime {
+	return gdt.StartOfWeekFromMonday().PlusDays(1)
+}
+
+// Wednesday returns the date of Wednesday for the current week, with weeks starting on Monday.
+func (gdt *GDateTime) Wednesday() *GDateTime {
+	return gdt.StartOfWeekFromMonday().PlusDays(2)
+}
+
+// Thursday returns the date of Thursday for the current week, with weeks starting on Monday.
+func (gdt *GDateTime) Thursday() *GDateTime {
+	return gdt.StartOfWeekFromMonday().PlusDays(3)
+}
+
+// Friday returns the date of Friday for the current week, with weeks starting on Monday.
+func (gdt *GDateTime) Friday() *GDateTime {
+	return gdt.StartOfWeekFromMonday().PlusDays(4)
+}
+
+// Saturday returns the date of Saturday for the current week, with weeks starting on Monday.
+func (gdt *GDateTime) Saturday() *GDateTime {
+	return gdt.StartOfWeekFromMonday().PlusDays(5)
+}
+
+// Sunday returns the date of Sunday for the current week, with weeks starting on Monday.
+func (gdt *GDateTime) Sunday() *GDateTime {
+	return gdt.StartOfWeekFromMonday().PlusDays(6)
+}

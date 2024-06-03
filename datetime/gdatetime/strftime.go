@@ -133,14 +133,14 @@ func formatDateElement(t *time.Time, elem rune) string {
 }
 
 // Strftime like C style datez format
-func (gtd *GDateTime) Strftime(f string) string {
+func (gdt *GDateTime) Strftime(f string) string {
 	var builder strings.Builder
 	format := []rune(f)
 
 	for i := 0; i < len(format); i++ {
 		if format[i] == '%' && i < len(format)-1 {
 			i++
-			formatted := formatDateElement(&gtd.t, format[i])
+			formatted := formatDateElement(&gdt.t, format[i])
 			if format[i] == '%' { // Handle the '%%' case
 				builder.WriteRune('%')
 			} else {

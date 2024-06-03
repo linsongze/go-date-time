@@ -983,3 +983,31 @@ func TestTruncateTo(t *testing.T) {
 		t.Errorf("Expected hour truncation to %v, got %v", expectedHour, truncatedToHour.ToTime())
 	}
 }
+
+func TestWeekdays(t *testing.T) {
+	baseTime, _ := time.Parse("2006-01-02", "2024-06-10") // 假设2024年6月10日是周一
+	gdt := Create(baseTime)
+
+	tests := []struct {
+		name     string
+		dayFunc  func() *GDateTime
+		expected string
+	}{
+		{"Monday", gdt.Monday, "2024-06-10"},
+		{"Tuesday", gdt.Tuesday, "2024-06-11"},
+		{"Wednesday", gdt.Wednesday, "2024-06-12"},
+		{"Thursday", gdt.Thursday, "2024-06-13"},
+		{"Friday", gdt.Friday, "2024-06-14"},
+		{"Saturday", gdt.Saturday, "2024-06-15"},
+		{"Sunday", gdt.Sunday, "2024-06-16"},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			result := tc.dayFunc().Format("2006-01-02")
+			if result != tc.expected {
+				t.Errorf("expected %s, got %s", tc.expected, result)
+			}
+		})
+	}
+}

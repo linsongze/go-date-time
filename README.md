@@ -223,6 +223,14 @@ MinutesBetween(end *GDateTime) int // Calculates the minute difference between t
 SecondsBetween(end *GDateTime) int // Calculates the second difference between two timestamps. (计算两个时间戳之间的秒差)
 IsWithinRange(start, end *GDateTime) bool // Checks if this GDateTime instance is within the range specified by start and end. (判断此实例是否在指定的开始和结束实例之间)
 
+
+Monday() *GDateTime     // Returns the date of Monday for the current week, with weeks starting on Monday. (返回当前周的周一日期，本周以周一开始。)
+Tuesday() *GDateTime    // Returns the date of Tuesday for the current week, with weeks starting on Monday. (返回当前周的周二日期，本周以周一开始。)
+Wednesday() *GDateTime  // Returns the date of Wednesday for the current week, with weeks starting on Monday. (返回当前周的周三日期，本周以周一开始。)
+Thursday() *GDateTime   // Returns the date of Thursday for the current week, with weeks starting on Monday. (返回当前周的周四日期，本周以周一开始。)
+Friday() *GDateTime     // Returns the date of Friday for the current week, with weeks starting on Monday. (返回当前周的周五日期，本周以周一开始。)
+Saturday() *GDateTime   // Returns the date of Saturday for the current week, with weeks starting on Monday. (返回当前周的周六日期，本周以周一开始。)
+Sunday() *GDateTime     // Returns the date of Sunday for the current week, with weeks starting on Monday. (返回当前周的周日日期，本周以周一开始。)
 ```
 
 -----------
